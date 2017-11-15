@@ -1,0 +1,26 @@
+{
+  "name": "drtania",
+  "version": "1.0.0",
+  "description": "Doctor for plants",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harryawk/facebookHackday.git"
+  },
+  "keywords": [
+    "deeplearning"
+  ],
+  "author": "Taleus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/harryawk/facebookHackday/issues"
+  },
+  "homepage": "https://github.com/harryawk/facebookHackday#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  }
+}
