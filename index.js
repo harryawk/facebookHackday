@@ -1,6 +1,7 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var PAGE_ACCESS_TOKEN = 'EAACFDxaMx1kBAERF82ipsu2nB7gUa1oqf8t3zR6GDbmXtZCenFKx8wuyhPIXPiZCZB1t984VOl0LbguqMCzmgInP1IXlk4EMyJDTZAWg3C5gUYE0n9cBWvLYtLe3ASLVSmShSSifMcMcnNxuTTYLewiPBb0XyTqXtlnWi58gxQZDZD'
+var the_request = require('request')
 
 var app = express().use(bodyParser.json()); // creates express http server
 
@@ -105,7 +106,7 @@ function callSendAPI(sender_psid, response) {
   }
 
   // Send the HTTP request to the Messenger Platform
-  request({
+  the_request({
     "uri": "https://graph.facebook.com/v2.6/me/messages",
     "qs": { "access_token": PAGE_ACCESS_TOKEN },
     "method": "POST",
