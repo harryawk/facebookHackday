@@ -82,7 +82,7 @@ function handleMessage(sender_psid, received_message) {
 
     // Create the payload for a basic text message
     response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an image!\n\nTest Derajat: 30\xb0C . Test Ranging: 60\u201385\xb0F`
+      "text": `You sent the message: "${received_message.text}". Now send me an image!\n\nTest Derajat: 30\xb0C . Test Ranging: 60\u201385\xb0F\n\nTest Requirements: Basic requirements\nAlmond grows best in Mediterranean climates with warm, dry summers and mild, wet winters. The optimal temperature for their growth is between 15 and 30\xb0C (60\u201385\xb0F) and the tree buds have a chilling requirement of between 300 and 600 hours below 7.2\xb0C (45\xb0F) to break dormancy. Almond trees will grow best when planted in deep, well-draining loam although they can withstand drought and grow in poor soils. The trees benefit from being planted in areas sheltered from frost and wind as trees bloom early and can therefore be susceptible to damage from late frosts. Trees will generally bear nuts after 3 to 4 years with the nut crop developing after blossom, in the fall. `
     }
   } else if (received_message.attachments) {
     var attachment_url = received_message.attachments[0].payload.url
