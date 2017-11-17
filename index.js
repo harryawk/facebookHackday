@@ -1,3 +1,6 @@
+import { unescape } from 'querystring';
+import { encode } from 'punycode';
+
 var express = require('express')
 var bodyParser = require('body-parser')
 var PAGE_ACCESS_TOKEN = 'EAACFDxaMx1kBAERF82ipsu2nB7gUa1oqf8t3zR6GDbmXtZCenFKx8wuyhPIXPiZCZB1t984VOl0LbguqMCzmgInP1IXlk4EMyJDTZAWg3C5gUYE0n9cBWvLYtLe3ASLVSmShSSifMcMcnNxuTTYLewiPBb0XyTqXtlnWi58gxQZDZD'
@@ -81,7 +84,7 @@ function handleMessage(sender_psid, received_message) {
   if (received_message.text) {    
 
     // Create the payload for a basic text message
-    var basic_requirements = decodeURIComponent('Test Requirements: Basic requirements\nAlmond grows best in Mediterranean climates with warm, dry summers and mild, wet winters. The optimal temperature for their growth is between 15 and 30\xc2\xb0C (60\xe2\x80\x9385\xc2\xb0F) and the tree buds have a chilling requirement of between 300 and 600 hours below 7.2\xc2\xb0C (45\xc2\xb0F) to break dormancy. ')
+    var basic_requirements = unescape(encodeURIComponent('Test Requirements: Basic requirements\nAlmond grows best in Mediterranean climates with warm, dry summers and mild, wet winters. The optimal temperature for their growth is between 15 and 30\xc2\xb0C (60\xe2\x80\x9385\xc2\xb0F) and the tree buds have a chilling requirement of between 300 and 600 hours below 7.2\xc2\xb0C (45\xc2\xb0F) to break dormancy. '))
     response = {
       "text": `You sent the message: "${received_message.text}". Now send me an image!\n\nTest Derajat: 30\xb0C . Test Ranging: 60\u201385\xb0F\n\n"${basic_requirements}"`
     }
