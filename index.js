@@ -414,55 +414,56 @@ function handlePostback(sender_psid, received_postback) {
     response = {
       'text': 'Silakan kirim gambar tanamannya'
     }
-  } else if (payload == 'alfalfa') {
-    var tanaman = require('./model/tanaman')
+  } 
+  // else if (payload == 'alfalfa') {
+  //   var tanaman = require('./model/tanaman')
 
-    tanaman.model.where({ nama_tanaman: 'Alfalfa' }).fetch().then((model) => {
-      if (model) {
-        var result = model.toJSON()['deskripsi_tanaman']
-        var tanaman_id = model.toJSON()['id']
+  //   tanaman.model.where({ nama_tanaman: 'Alfalfa' }).fetch().then((model) => {
+  //     if (model) {
+  //       var result = model.toJSON()['deskripsi_tanaman']
+  //       var tanaman_id = model.toJSON()['id']
 
-        response = {
-          'attachment': {
-            'type': 'template',
-            'payload': {
-              'template_type': 'generic',
-              'elements': [
-                {
-                  'title': 'Tentang ' + received_message.text,
-                  'buttons': [
-                    {
-                      'type': 'web_url',
-                      'url': 'https://fbhackday.herokuapp.com/propagasi/' + tanaman_id,
-                      'title': 'Cara mengembang-biakan',
-                      'messenger_extensions': true,
-                      'fallback_url': 'https://fbhackday.herokuapp.com/propagasi/' + tanaman_id
-                    },
-                    {
-                      'type': 'web_url',
-                      'url': 'https://fbhackday.herokuapp.com/deskripsi/' + tanaman_id,
-                      'title': 'Deskripsi',
-                      'messenger_extensions': true,
-                      'fallback_url': 'https://fbhackday.herokuapp.com/deskripsi/' + tanaman_id
-                    },
-                    {
-                      'type': 'web_url',
-                      'url': 'https://fbhackday.herokuapp.com/manfaat/' + tanaman_id,
-                      'title': 'Manfaat',
-                      'messenger_extensions': true,
-                      'fallback_url': 'https://fbhackday.herokuapp.com/manfaat/' + tanaman_id
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-        callSendAPI(sender_psid, response)
-      }
-    })
-    return;
-  }
+  //       response = {
+  //         'attachment': {
+  //           'type': 'template',
+  //           'payload': {
+  //             'template_type': 'generic',
+  //             'elements': [
+  //               {
+  //                 'title': 'Tentang ' + received_message.text,
+  //                 'buttons': [
+  //                   {
+  //                     'type': 'web_url',
+  //                     'url': 'https://fbhackday.herokuapp.com/propagasi/' + tanaman_id,
+  //                     'title': 'Cara mengembang-biakan',
+  //                     'messenger_extensions': true,
+  //                     'fallback_url': 'https://fbhackday.herokuapp.com/propagasi/' + tanaman_id
+  //                   },
+  //                   {
+  //                     'type': 'web_url',
+  //                     'url': 'https://fbhackday.herokuapp.com/deskripsi/' + tanaman_id,
+  //                     'title': 'Deskripsi',
+  //                     'messenger_extensions': true,
+  //                     'fallback_url': 'https://fbhackday.herokuapp.com/deskripsi/' + tanaman_id
+  //                   },
+  //                   {
+  //                     'type': 'web_url',
+  //                     'url': 'https://fbhackday.herokuapp.com/manfaat/' + tanaman_id,
+  //                     'title': 'Manfaat',
+  //                     'messenger_extensions': true,
+  //                     'fallback_url': 'https://fbhackday.herokuapp.com/manfaat/' + tanaman_id
+  //                   }
+  //                 ]
+  //               }
+  //             ]
+  //           }
+  //         }
+  //       }
+  //       callSendAPI(sender_psid, response)
+  //     }
+  //   })
+  //   return;
+  // }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
 }
