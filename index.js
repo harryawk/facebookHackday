@@ -281,6 +281,10 @@ function handleMessage(sender_psid, received_message) {
       }
     }
 
+    console.log("=======attachment_url=======")
+    console.log(attachment_url)
+    console.log("=======attachment_url=======")
+
     the_request({
       'uri': 'https://c312774f.ngrok.io/drtania/api/v1/predict/',
       'method': 'POST',
