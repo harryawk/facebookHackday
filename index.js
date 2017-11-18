@@ -328,6 +328,10 @@ function handleMessage(sender_psid, received_message) {
         } else {  
           table_penyakit_id = mapping[result['class']]['penyakit_id']
           table_tanaman_id = mapping[result['class']]['tanaman_id']
+          console.log('============data============')
+          console.log(table_penyakit_id)
+          console.log(table_tanaman_id)
+          console.log('============data============')
           penyakit.model.where({ id: table_penyakit_id }).fetch().then((model) => {
             if (model) {
               var penyakit_result = model.toJSON()
