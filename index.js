@@ -145,14 +145,28 @@ function handleMessage(sender_psid, received_message) {
                 'template_type': 'generic',
                 'elements': [
                   {
-                    'title': 'Deskripsi Tanaman',
+                    'title': 'Tentang ' + received_message.text,
                     'buttons': [
                       {
                         'type': 'web_url',
                         'url': 'https://fbhackday.herokuapp.com/propagasi/' + tanaman_id,
-                        'title': 'Lihat Tanaman',
+                        'title': 'Cara mengembang-biakan',
                         'messenger_extensions': true,
                         'fallback_url': 'https://fbhackday.herokuapp.com/propagasi/' + tanaman_id
+                      },
+                      {
+                        'type': 'web_url',
+                        'url': 'https://fbhackday.herokuapp.com/deskripsi/' + tanaman_id,
+                        'title': 'Deskripsi',
+                        'messenger_extensions': true,
+                        'fallback_url': 'https://fbhackday.herokuapp.com/deskripsi/' + tanaman_id
+                      },
+                      {
+                        'type': 'web_url',
+                        'url': 'https://fbhackday.herokuapp.com/manfaat/' + tanaman_id,
+                        'title': 'Manfaat',
+                        'messenger_extensions': true,
+                        'fallback_url': 'https://fbhackday.herokuapp.com/manfaat/' + tanaman_id
                       }
                     ]
                   }
