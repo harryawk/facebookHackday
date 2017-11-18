@@ -197,31 +197,148 @@ function handleMessage(sender_psid, received_message) {
     console.log('==================')
   } else if (received_message.attachments) {
     var attachment_url = received_message.attachments[0].payload.url
-    response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Is this the right picture?",
-            "subtitle": "Tap a button to answer.",
-            "image_url": attachment_url,
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Yes!",
-                "payload": "yes",
-              },
-              {
-                "type": "postback",
-                "title": "No!",
-                "payload": "no",
-              }
-            ],
-          }]
-        }
-      }
+    var mapping = {
+      'c_4': {
+        'tanaman_id': 22,
+        'penyakit_id': 0
+      },
+      'c_3': {
+        'tanaman_id': 7,
+        'penyakit_id': 0
+      },
+      'c_12': {
+        'tanaman_id': 72,
+        'penyakit_id': 734
+      },
+      'c_8': {
+        'tanaman_id': 53,
+        'penyakit_id': 537
+      },
+      'c_15': {
+        'tanaman_id': 103,
+        'penyakit_id': 963
+      },
+      'c_11': {
+        'tanaman_id': 72,
+        'penyakit_id': 729
+      },
+      'c_24': {
+        'tanaman_id': 134,
+        'penyakit_id': 0
+      },
+      'c_10': {
+        'tanaman_id': 53,
+        'penyakit_id': 540
+      },
+      'c_5': {
+        'tanaman_id': 37,
+        'penyakit_id': 375
+      },
+      'c_25': {
+        'tanaman_id': 136,
+        'penyakit_id': 1301
+      },
+      'c_16': {
+        'tanaman_id': 109,
+        'penyakit_id': 1028
+      },
+      'c_18': {
+        'tanaman_id': 114,
+        'penyakit_id': 1084
+      },
+      'c_19': {
+        'tanaman_id': 114,
+        'penyakit_id': 0
+      },
+      'c_33': {
+        'tanaman_id': 147,
+        'penyakit_id': 1388
+      },
+      'c_28': {
+        'tanaman_id': 147,
+        'penyakit_id': 1391
+      },
+      'c_32': {
+        'tanaman_id': 147,
+        'penyakit_id': 1399
+      },
+      'c_34': {
+        'tanaman_id': 147,
+        'penyakit_id': 1403
+      },
+      'c_37': {
+        'tanaman_id': 147,
+        'penyakit_id': 0
+      },
+      'c_35': {
+        'tanaman_id': 147,
+        'penyakit_id': 0
+      },
+      'c_30': {
+        'tanaman_id': 147,
+        'penyakit_id': 1421
+      },
     }
+
+    the_request({
+      'uri': 'http://c312774f.ngrok.io/drtania/api/v1/predict/',
+      'method': 'POST',
+      'json': {
+        'img_url': attachment_url
+      }
+    }, (err, res, body) => {
+      if (!err) {
+        var result = JSON.parse(body)
+        var penyakit = require('./model/penyakit')
+        var table_penyakit_id
+        var table_tanaman_id
+        if (mapping[result['class']]['penyakit_id'] == 0) {
+          table_penyakit_id = mapping[result['class']]['penyakit_id']
+          penyakit.model.where({id: table_penyakit_id}).fetch().then((model) => {
+            if (model) {
+              var penyakit_result = model.toJSON()
+              response = {
+                "attachment": {
+                  "type": "template",
+                  "payload": {
+                    "template_type": "generic",
+                    "elements": [{
+                      "title": "Hasil analisis",
+                      "subtitle": "Tekan tombol di bawah untuk melihat hasilnya",
+                      "image_url": attachment_url,
+                      "buttons": [
+                        {
+                          "type": "web_url",
+                          "title": "Gejala",
+                          "url": "https://fbhackday.herokuapp.com/gejala/" + penyakit_result['tanaman_id'] + '/' + table_penyakit_id,
+                          "messenger_extensions": true,
+                          "fallback_url": "https://fbhackday.herokuapp.com/gejala/" + penyakit_result['tanaman_id'] + '/' + table_penyakit_id
+                        },
+                        {
+                          "type": "web_url",
+                          "title": "Cara Mengatasi",
+                          "url": "https://fbhackday.herokuapp.com/penanganan/" + penyakit_result['tanaman_id'] + '/' + table_penyakit_id,
+                          "messenger_extensions": true,
+                          "fallback_url": "https://fbhackday.herokuapp.com/penanganan/" + penyakit_result['tanaman_id'] + '/' + table_penyakit_id
+                        }
+                      ],
+                    }]
+                  }
+                }
+              }
+
+              callSendAPI(sender_psid, response);
+            }
+          })
+        } else {  
+          table_penyakit_id = mapping[result['class']]['penyakit_id']
+          table_tanaman_id = mapping[result['class']]['tanaman_id']
+        }
+      } else {
+        console.error("Unable to send message:" + err);
+      }
+    })
+    return;
   }
   
   // Sends the response message
@@ -266,6 +383,54 @@ function handlePostback(sender_psid, received_postback) {
     response = {
       'text': 'Silakan kirim gambar tanamannya'
     }
+  } else if (payload == 'alfalfa') {
+    var tanaman = require('./model/tanaman')
+
+    tanaman.model.where({ nama_tanaman: 'Alfalfa' }).fetch().then((model) => {
+      if (model) {
+        var result = model.toJSON()['deskripsi_tanaman']
+        var tanaman_id = model.toJSON()['id']
+
+        response = {
+          'attachment': {
+            'type': 'template',
+            'payload': {
+              'template_type': 'generic',
+              'elements': [
+                {
+                  'title': 'Tentang ' + received_message.text,
+                  'buttons': [
+                    {
+                      'type': 'web_url',
+                      'url': 'https://fbhackday.herokuapp.com/propagasi/' + tanaman_id,
+                      'title': 'Cara mengembang-biakan',
+                      'messenger_extensions': true,
+                      'fallback_url': 'https://fbhackday.herokuapp.com/propagasi/' + tanaman_id
+                    },
+                    {
+                      'type': 'web_url',
+                      'url': 'https://fbhackday.herokuapp.com/deskripsi/' + tanaman_id,
+                      'title': 'Deskripsi',
+                      'messenger_extensions': true,
+                      'fallback_url': 'https://fbhackday.herokuapp.com/deskripsi/' + tanaman_id
+                    },
+                    {
+                      'type': 'web_url',
+                      'url': 'https://fbhackday.herokuapp.com/manfaat/' + tanaman_id,
+                      'title': 'Manfaat',
+                      'messenger_extensions': true,
+                      'fallback_url': 'https://fbhackday.herokuapp.com/manfaat/' + tanaman_id
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+        callSendAPI(sender_psid, response)
+      }
+    })
+    return;
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
