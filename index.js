@@ -136,10 +136,30 @@ function handleMessage(sender_psid, received_message) {
       tanaman.model.where({nama_tanaman: 'Almond'}).fetch().then((model) => {
         if (model) {
           var result = model.toJSON()['deskripsi_tanaman']
+          var deskripsi_id = model.toJSON()['id']
 
           console.log(result.toString('binary'))
           response = {
-            'text': result.toString('binary').substring(0, 600)
+            'attachment': {
+              'type': 'template',
+              'payload': {
+                'template_type': 'generic',
+                'elements': [
+                  {
+                    'title': 'Deskripsi Tanaman',
+                    'buttons': [
+                      {
+                        'type': 'web_url',
+                        'url': 'https://dump-drtania.herokuapp.com/deskripsi/' + deskripsi_id,
+                        'title': 'Lihat Tanaman',
+                        'messenger_extensions': true,
+                        'fallback_url': 'https://dump-drtania.herokuapp.com/fallback'
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
           }
           callSendAPI(sender_psid, response)
         }
@@ -376,5 +396,18 @@ app.get('/coba', (req, res) => {
     result = model.toJSON()[0]
 
     
+  })
+})
+
+app.get('/deskripsi/:id', (req, res) => {
+  var id = req.params.id
+
+  var tanaman = require('./model/tanaman')
+
+  tanaman.model.where({id: id}).fetch().then((model) => {
+    var result = model.toJSON()['deskripsi_tanaman']
+    var buffer = result.toString('binary')
+
+    res.send('<html><head></head><body>'+ buffer + '</body></html>')
   })
 })
