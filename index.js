@@ -147,3 +147,120 @@ function callSendAPI(sender_psid, response) {
     }
   }); 
 }
+
+app.get('/get_info', (req, resp) => {
+  
+  var info_id = req.query.id
+
+  the_request({
+    'uri': 'http://localhost:5000',
+    'qs': {
+      'id': info_id
+    },
+    'method': 'GET'
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('request sent!')
+      the_data = JSON.parse(body)
+
+      // resp.json(the_data)
+      // return;
+      var tanaman = require('./model/tanaman')
+      var penyakit = require('./model/penyakit')
+      var propagasi = require('./model/propagasi')
+      var penanganan_table = require('./model/penanganan')
+
+      var nama_tanaman = the_data['name']
+      var deskripsi_tanaman = the_data['description']
+      var manfaat_tanaman = the_data['uses']
+      
+      // need: tanaman_id
+      var komentar_penyebab = the_data['result_comments'] != [] ? the_data['result_comments'] : 'Maaf, Tania gak punya datanya...'
+      var penyebab_penyakit = the_data['result_cause'] != [] ? the_data['result_cause'] : 'Maaf, Tania gak punya datanya...'
+      var gejala_penyakit = the_data['result_symptoms'] != [] ? the_data['result_symptoms'] : 'Maaf, Tania gak punya datanya...'
+      var nama_penyakit = the_data['result_name'] != [] ? the_data['result_name'] : 'Maaf, Tania gak punya datanya...'
+      
+      // need: tanaman_id
+      var data_propagasi = the_data['propagation']
+      
+      // need: penyakit_id
+      var penanganan = the_data['result_management']
+      
+      var tanaman_id
+      var penyakit_id
+      new tanaman.model({nama_tanaman: nama_tanaman, deskripsi_tanaman: deskripsi_tanaman.toString('binary'), manfaat_tanaman: manfaat_tanaman.toString('binary')})
+        .save().then((model) => {
+          if (model) {
+            // console.log(model.toJSON())
+            // console.log(model.get('id'))
+            // return
+            tanaman_id = model.get('id')
+            var coll = []
+            // console.log(nama_penyakit.length)
+            // return
+            for (var i = 0; i < (nama_penyakit.length > 0 ? nama_penyakit.length - 1 : 1); i++) {
+              console.log('test' + i)
+              if (nama_penyakit.length > 0) {
+                coll.push({tanaman_id: tanaman_id, nama_penyakit: nama_penyakit[i][0][0], gejala_penyakit: gejala_penyakit[i], penyebab_penyakit: penyebab_penyakit[i], komentar_penyebab: komentar_penyebab[i], penanganan_penyakit: penanganan[i] })
+              } else {
+                coll.push({ tanaman_id: tanaman_id, nama_penyakit: 'Maaf, Tania gak punya datanya', gejala_penyakit: 'Maaf, Tania gak punya datanya', penyebab_penyakit: 'Maaf, Tania gak punya datanya', komentar_penyebab: 'Maaf, Tania gak punya datanya', penanganan_penyakit: 'Maaf, Tania gak punya datanya'})
+              }
+            }
+            console.log(coll)
+            penyakit.model.collection(coll).invokeThen('save')
+              .then((model) => {
+                // if (model) {
+                  // penyakit_id = model.get('id')
+                  new propagasi.model({tanaman_id: tanaman_id, data_propagasi: data_propagasi})
+                    .save().then((model) => {
+                      if (model) {
+                        resp.send('OK')
+                      } // add else - new propagasi
+                    }) // add catch - new propagasi
+                // } // add else - new penyakit
+              }) // add catch - new penyakit
+          } // add else - new tanaman
+        }) // add catch - new tanaman
+
+    } else {
+      console.error('Unable to send request: ' + err)
+      resp.status(500).send('NOT OK. ' + err)
+    }
+  })
+
+})
+
+app.get('/coba', (req, res) => {
+  // var tanaman = require('./model/tanaman')
+
+  // tanaman.model.fetchAll().then((model) => {
+
+  //   var result = model.toJSON()[0]
+  //   console.log(model.toJSON()[0]['deskripsi_tanaman'])
+  //   var buffer = model.toJSON()[0]['deskripsi_tanaman']
+  //   console.log(buffer.toString('binary'))
+
+  //   result['deskripsi_tanaman'] = buffer.toString('binary')
+  //   buffer = model.toJSON()[0]['manfaat_tanaman']
+
+  //   // console.log(buffer.toString())
+  //   // var reader = new window.FileReader()
+  //   // var blb = new Blob(model.toJSON()['deskripsi_tanaman']['buffer'])
+
+  //   // reader.addEventListener('loadend', (e) => {
+  //   //   var text = e.srcElement.result
+  //   //   console.log(text)
+  //   // })
+
+  //   // reader.readAsArrayBuffer(model.toJSON()['deskripsi_tanaman'])
+  //   res.json()
+  // })
+
+  var propagasi = require('./model/propagasi')
+
+  propagasi.model.fetchAll().then((model) => {
+    result = model.toJSON()[0]
+
+    
+  })
+})
