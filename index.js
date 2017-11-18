@@ -125,15 +125,15 @@ function handleMessage(sender_psid, received_message) {
           },
           {
             'content_type': 'text',
-            'title': 'Aloe Vera',
+            'title': 'Aloe vera',
             'payload': 'aloe-vera'
           }
         ]
       }
-    } else if (received_message.text == 'Almond') {
+    } else if (received_message.text == 'Almond' || received_message.text == 'Aloe vera') {
       var tanaman = require('./model/tanaman')
 
-      tanaman.model.where({nama_tanaman: 'Almond'}).fetch().then((model) => {
+      tanaman.model.where({nama_tanaman: received_message.text}).fetch().then((model) => {
         if (model) {
           var result = model.toJSON()['deskripsi_tanaman']
           var tanaman_id = model.toJSON()['id']
@@ -243,7 +243,7 @@ function handlePostback(sender_psid, received_postback) {
         },
         {
           'content_type': 'text',
-          'title': 'Aloe Vera',
+          'title': 'Aloe vera',
           'payload': 'aloe-vera'
         }
       ]
@@ -405,7 +405,7 @@ app.get('/deskripsi/:id', (req, res) => {
 
   tanaman.model.where({id: id}).fetch().then((model) => {
     var result = model.toJSON()['deskripsi_tanaman']
-    var buffer = result.toString('binary')
+    var buffer = result.toString()
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8')
     res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>'+ buffer + '</body></html>')
@@ -419,7 +419,7 @@ app.get('/manfaat/:id', (req, res) => {
 
   tanaman.model.where({id: id}).fetch().then((model) => {
     var result = model.toJSON()['manfaat_tanaman']
-    var buffer = result.toString('binary')
+    var buffer = result.toString()
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8')
     res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>'+ buffer + '</body></html>')
@@ -440,12 +440,12 @@ app.get('/propagasi/:id', (req, res) => {
   })
 })
 
-app.get('/gejala/:id', (req, res) => {
+app.get('/gejala/:id/:penyakit_id', (req, res) => {
   var id = req.params.id
 
   var penyakit = require('./model/penyakit')
 
-  penyakit.model.where({tanaman_id: id}).fetch().then((model) => {
+  penyakit.model.where({tanaman_id: id, id: penyakit_id}).fetch().then((model) => {
     var result = model.toJSON()['gejala_penyakit']
     var buffer = result.toString()
 
@@ -454,12 +454,12 @@ app.get('/gejala/:id', (req, res) => {
   })
 })
 
-app.get('/penanganan/:id', (req, res) => {
+app.get('/penanganan/:id/:penyakit_id', (req, res) => {
   var id = req.params.id
 
   var penyakit = require('./model/penyakit')
 
-  penyakit.model.where({tanaman_id: id}).fetch().then((model) => {
+  penyakit.model.where({tanaman_id: id, id: penyakit_id}).fetch().then((model) => {
     var result = model.toJSON()['penanganan_penyakit']
     var buffer = result.toString()
 
@@ -468,12 +468,12 @@ app.get('/penanganan/:id', (req, res) => {
   })
 })
 
-app.get('/komentar/:id', (req, res) => {
+app.get('/komentar/:id/:penyakit_id', (req, res) => {
   var id = req.params.id
 
   var penyakit = require('./model/penyakit')
 
-  penyakit.model.where({tanaman_id: id}).fetch().then((model) => {
+  penyakit.model.where({tanaman_id: id, id: penyakit_id}).fetch().then((model) => {
     var result = model.toJSON()['komentar_penyebab']
     var buffer = result.toString()
 
