@@ -295,12 +295,12 @@ function handleMessage(sender_psid, received_message) {
       }
     }, (err, res, body) => {
       if (!err) {
-        console.log("==========result==========")
+        console.log("==========body==========")
         console.log(body)
-        console.log("==========result==========")
+        console.log("==========body==========")
         var result = JSON.parse(body)
         console.log("==========result==========")
-        console.log(result)
+        console.log(result['class'])
         console.log("==========result==========")
         var penyakit = require('./model/penyakit')
         var table_penyakit_id
