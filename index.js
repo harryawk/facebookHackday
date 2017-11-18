@@ -137,6 +137,7 @@ function handleMessage(sender_psid, received_message) {
         if (model) {
           var result = model.toJSON()['deskripsi_tanaman']
 
+          console.log(result.toString('binary'))
           response = {
             'text': result.toString('binary')
           }
