@@ -140,6 +140,7 @@ function handleMessage(sender_psid, received_message) {
           response = {
             'text': result.toString('binary')
           }
+          callSendAPI(sender_psid, response)
         }
       })
     } else {
