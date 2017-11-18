@@ -513,8 +513,6 @@ app.get('/get_info', (req, resp) => {
       console.log('request sent!')
       the_data = JSON.parse(body)
 
-      var translator = require('google-translate-api')
-
       // resp.json(the_data)
       // return;
       var tanaman = require('./model/tanaman')
@@ -538,65 +536,41 @@ app.get('/get_info', (req, resp) => {
       // need: penyakit_id
       var penanganan = the_data['result_management']
       
-
-      translator(nama_tanaman, {from: 'en', to: 'id'}).then((res) => {
-        nama_tanaman = res.text
-        translator(deskripsi_tanaman, { from: 'en', to: 'id' }).then((res) => {
-          deskripsi_tanaman = res.text
-          translator(manfaat_tanaman, { from: 'en', to: 'id' }).then((res) => {
-            manfaat_tanaman = res.text
-            translator(komentar_penyebab, { from: 'en', to: 'id' }).then((res) => {
-              komentar_penyebab = res.text
-              translator(penyebab_penyakit, { from: 'en', to: 'id' }).then((res) => {
-                penyebab_penyakit = res.text
-                translator(gejala_penyakit, { from: 'en', to: 'id' }).then((res) => {
-                  gejala_penyakit = res.text
-                  translator(data_propagasi, { from: 'en', to: 'id' }).then((res) => {
-                    data_propagasi = res.text
-                    
-                    var tanaman_id
-                    var penyakit_id
-                    new tanaman.model({nama_tanaman: nama_tanaman, deskripsi_tanaman: deskripsi_tanaman.toString('binary'), manfaat_tanaman: manfaat_tanaman.toString('binary')})
-                      .save().then((model) => {
-                        if (model) {
-                          // console.log(model.toJSON())
-                          // console.log(model.get('id'))
-                          // return
-                          tanaman_id = model.get('id')
-                          var coll = []
-                          // console.log(nama_penyakit.length)
-                          // return
-                          for (var i = 0; i < (nama_penyakit.length > 0 ? nama_penyakit.length - 1 : 1); i++) {
-                            console.log('test' + i)
-                            if (nama_penyakit.length > 0) {
-                              coll.push({tanaman_id: tanaman_id, nama_penyakit: nama_penyakit[i][0][0], gejala_penyakit: gejala_penyakit[i], penyebab_penyakit: penyebab_penyakit[i], komentar_penyebab: komentar_penyebab[i], penanganan_penyakit: penanganan[i] })
-                            } else {
-                              coll.push({ tanaman_id: tanaman_id, nama_penyakit: 'Maaf, Tania gak punya datanya', gejala_penyakit: 'Maaf, Tania gak punya datanya', penyebab_penyakit: 'Maaf, Tania gak punya datanya', komentar_penyebab: 'Maaf, Tania gak punya datanya', penanganan_penyakit: 'Maaf, Tania gak punya datanya'})
-                            }
-                          }
-                          console.log(coll)
-                          penyakit.model.collection(coll).invokeThen('save')
-                            .then((model) => {
-                              // if (model) {
-                                // penyakit_id = model.get('id')
-                                new propagasi.model({tanaman_id: tanaman_id, data_propagasi: data_propagasi})
-                                  .save().then((model) => {
-                                    if (model) {
-                                      resp.send('OK')
-                                    } // add else - new propagasi
-                                  }) // add catch - new propagasi
-                              // } // add else - new penyakit
-                            }) // add catch - new penyakit
-                        } // add else - new tanaman
-                      }) // add catch - new tanaman
-                  })
-                })
-              })
-            })
-          })
-        })
-      })
-
+      var tanaman_id
+      var penyakit_id
+      new tanaman.model({nama_tanaman: nama_tanaman, deskripsi_tanaman: deskripsi_tanaman.toString('binary'), manfaat_tanaman: manfaat_tanaman.toString('binary')})
+        .save().then((model) => {
+          if (model) {
+            // console.log(model.toJSON())
+            // console.log(model.get('id'))
+            // return
+            tanaman_id = model.get('id')
+            var coll = []
+            // console.log(nama_penyakit.length)
+            // return
+            for (var i = 0; i < (nama_penyakit.length > 0 ? nama_penyakit.length - 1 : 1); i++) {
+              console.log('test' + i)
+              if (nama_penyakit.length > 0) {
+                coll.push({tanaman_id: tanaman_id, nama_penyakit: nama_penyakit[i][0][0], gejala_penyakit: gejala_penyakit[i], penyebab_penyakit: penyebab_penyakit[i], komentar_penyebab: komentar_penyebab[i], penanganan_penyakit: penanganan[i] })
+              } else {
+                coll.push({ tanaman_id: tanaman_id, nama_penyakit: 'Maaf, Tania gak punya datanya', gejala_penyakit: 'Maaf, Tania gak punya datanya', penyebab_penyakit: 'Maaf, Tania gak punya datanya', komentar_penyebab: 'Maaf, Tania gak punya datanya', penanganan_penyakit: 'Maaf, Tania gak punya datanya'})
+              }
+            }
+            console.log(coll)
+            penyakit.model.collection(coll).invokeThen('save')
+              .then((model) => {
+                // if (model) {
+                  // penyakit_id = model.get('id')
+                  new propagasi.model({tanaman_id: tanaman_id, data_propagasi: data_propagasi})
+                    .save().then((model) => {
+                      if (model) {
+                        resp.send('OK')
+                      } // add else - new propagasi
+                    }) // add catch - new propagasi
+                // } // add else - new penyakit
+              }) // add catch - new penyakit
+          } // add else - new tanaman
+        }) // add catch - new tanaman
 
     } else {
       console.error('Unable to send request: ' + err)
