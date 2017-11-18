@@ -281,7 +281,7 @@ function handleMessage(sender_psid, received_message) {
     }
 
     the_request({
-      'uri': 'http://c312774f.ngrok.io/drtania/api/v1/predict/',
+      'uri': 'https://c312774f.ngrok.io/drtania/api/v1/predict/',
       'method': 'POST',
       'json': {
         'img_url': attachment_url
@@ -302,7 +302,7 @@ function handleMessage(sender_psid, received_message) {
                 "elements": [{
                   "title": "Hasil analisis",
                   "subtitle": "Tekan tombol di bawah untuk melihat hasilnya",
-                  "image_url": attachment_url,
+                  "image_url": attachment_url
                 }]
               }
             }
