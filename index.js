@@ -139,7 +139,7 @@ function handleMessage(sender_psid, received_message) {
 
           console.log(result.toString('binary'))
           response = {
-            'text': result.toString('binary')
+            'text': result.toString('binary').substring(0, 600)
           }
           callSendAPI(sender_psid, response)
         }
