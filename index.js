@@ -80,11 +80,31 @@ function handleMessage(sender_psid, received_message) {
   // Check if the message contains text
   if (received_message.text) {    
 
-    if (received_message.text == 'baca') {
+    if (received_message.text == 'halo') {
+
+    } else if (received_message.text == 'baca') {
       var the_text = received_message.text
 
+      
       response = {
-        'text': 'test'
+        'text': 'Mau baca tentang tanaman apa?',
+        'quick_replies': [
+          {
+            'content_type': 'text',
+            'title': 'Almond',
+            'payload': 'almond'
+          },
+          {
+            'content_type': 'text',
+            'title': 'Alfalfa',
+            'payload': 'alfalfa'
+          },
+          {
+            'content_type': 'text',
+            'title': 'Aloe Vera',
+            'payload': 'aloe-vera'
+          }
+        ]
       }
     } else {
       
