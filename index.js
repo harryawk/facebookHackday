@@ -141,9 +141,9 @@ function handleMessage(sender_psid, received_message) {
             'text': result.toString('binary')
           }
           callSendAPI(sender_psid, response)
-          return;
         }
       })
+      return;
     } else {
       
       // Create the payload for a basic text message
