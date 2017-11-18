@@ -255,7 +255,6 @@ app.get('/coba', (req, res) => {
   //   // reader.readAsArrayBuffer(model.toJSON()['deskripsi_tanaman'])
   //   res.json()
   // })
-
   var propagasi = require('./model/propagasi')
 
   propagasi.model.fetchAll().then((model) => {
