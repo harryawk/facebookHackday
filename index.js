@@ -141,6 +141,7 @@ function handleMessage(sender_psid, received_message) {
             'text': result.toString('binary')
           }
           callSendAPI(sender_psid, response)
+          return;
         }
       })
     } else {
