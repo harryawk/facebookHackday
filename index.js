@@ -149,10 +149,10 @@ function handleMessage(sender_psid, received_message) {
                     'buttons': [
                       {
                         'type': 'web_url',
-                        'url': 'https://dump-drtania.herokuapp.com/propagasi/' + tanaman_id,
+                        'url': 'https://fbhackday.herokuapp.com/propagasi/' + tanaman_id,
                         'title': 'Lihat Tanaman',
                         'messenger_extensions': true,
-                        'fallback_url': 'https://dump-drtania.herokuapp.com/fallback'
+                        'fallback_url': 'https://fbhackday.herokuapp.com/fallback'
                       }
                     ]
                   }
