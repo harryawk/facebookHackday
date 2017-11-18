@@ -284,7 +284,7 @@ function handleMessage(sender_psid, received_message) {
     the_request({
       'uri': 'https://c312774f.ngrok.io/drtania/api/v1/predict/',
       'method': 'POST',
-      'json': {
+      'body': {
         'img_url': attachment_url
       }
     }, (err, res, body) => {
