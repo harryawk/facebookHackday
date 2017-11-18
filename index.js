@@ -229,8 +229,10 @@ function handlePostback(sender_psid, received_postback) {
         }
       ]
     }
-  } else if (payload == 'almond') {
-
+  } else if (payload == 'identifikasi') {
+    response = {
+      'text': 'Silakan kirim gambar tanamannya'
+    }
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
