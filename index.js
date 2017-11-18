@@ -412,6 +412,20 @@ app.get('/deskripsi/:id', (req, res) => {
   })
 })
 
+app.get('/manfaat/:id', (req, res) => {
+  var id = req.params.id
+
+  var tanaman = require('./model/tanaman')
+
+  tanaman.model.where({id: id}).fetch().then((model) => {
+    var result = model.toJSON()['manfaat_tanaman']
+    var buffer = result.toString('binary')
+
+    res.setHeader('Content-Type', 'text/html; charset=utf-8')
+    res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>'+ buffer + '</body></html>')
+  })
+})
+
 app.get('/propagasi/:id', (req, res) => {
   var id = req.params.id
 
