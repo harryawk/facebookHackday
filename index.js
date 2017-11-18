@@ -289,6 +289,9 @@ function handleMessage(sender_psid, received_message) {
       }
     }, (err, res, body) => {
       if (!err) {
+        console.log("==========result==========")
+        console.log(body)
+        console.log("==========result==========")
         var result = JSON.parse(body)
         console.log("==========result==========")
         console.log(result)
