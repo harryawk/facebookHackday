@@ -278,7 +278,7 @@ function handleMessage(sender_psid, received_message) {
       'c_30': {
         'tanaman_id': 147,
         'penyakit_id': 1421
-      },
+      }
     }
 
     the_request({
