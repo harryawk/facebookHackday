@@ -658,6 +658,7 @@ app.get('/propagasi/:id', (req, res) => {
 
 app.get('/gejala/:id/:penyakit_id', (req, res) => {
   var id = req.params.id
+  var penyakit_id = req.params.penyakit_id
 
   var penyakit = require('./model/penyakit')
 
@@ -672,6 +673,7 @@ app.get('/gejala/:id/:penyakit_id', (req, res) => {
 
 app.get('/penanganan/:id/:penyakit_id', (req, res) => {
   var id = req.params.id
+  var penyakit_id = req.params.penyakit_id
 
   var penyakit = require('./model/penyakit')
 
@@ -686,6 +688,7 @@ app.get('/penanganan/:id/:penyakit_id', (req, res) => {
 
 app.get('/komentar/:id/:penyakit_id', (req, res) => {
   var id = req.params.id
+  var penyakit_id = req.params.penyakit_id
 
   var penyakit = require('./model/penyakit')
 
