@@ -81,7 +81,31 @@ function handleMessage(sender_psid, received_message) {
   if (received_message.text) {    
 
     if (received_message.text == 'halo') {
-
+      response = {
+        'attachment': {
+          'type': 'template',
+          'payload': {
+            'template_type': 'generic',
+            'elements': [
+              {
+                'title': 'Ada yang bisa Dr. Tania bantu?',
+                'buttons': [
+                  {
+                    'type': 'postback',
+                    'payload': 'baca',
+                    'title': 'Baca'
+                  },
+                  {
+                    'type': 'postback',
+                    'payload': 'identifikasi',
+                    'title': 'Identifikasi'
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
     } else if (received_message.text == 'baca') {
       var the_text = received_message.text
 
@@ -164,6 +188,28 @@ function handlePostback(sender_psid, received_postback) {
     response = { "text": "Thanks!" }
   } else if (payload === 'no') {
     response = { "text": "Oops, try sending another image." }
+  } else if (payload == 'baca') {
+    
+    response = {
+      'text': 'Mau baca tentang tanaman apa?',
+      'quick_replies': [
+        {
+          'content_type': 'text',
+          'title': 'Almond',
+          'payload': 'almond'
+        },
+        {
+          'content_type': 'text',
+          'title': 'Alfalfa',
+          'payload': 'alfalfa'
+        },
+        {
+          'content_type': 'text',
+          'title': 'Aloe Vera',
+          'payload': 'aloe-vera'
+        }
+      ]
+    }
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
