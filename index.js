@@ -290,6 +290,9 @@ function handleMessage(sender_psid, received_message) {
     }, (err, res, body) => {
       if (!err) {
         var result = JSON.parse(body)
+        console.log("==========result==========")
+        console.log(result)
+        console.log("==========result==========")
         var penyakit = require('./model/penyakit')
         var table_penyakit_id
         var table_tanaman_id
