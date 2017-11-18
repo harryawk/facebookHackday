@@ -149,7 +149,7 @@ function handleMessage(sender_psid, received_message) {
                     'buttons': [
                       {
                         'type': 'web_url',
-                        'url': 'https://fbhackday.herokuapp.com/fallback',
+                        'url': 'https://fbhackday.herokuapp.com/propagasi/' + tanaman_id,
                         'title': 'Lihat Tanaman',
                         'messenger_extensions': true,
                         'fallback_url': 'https://fbhackday.herokuapp.com/propagasi/' + tanaman_id
@@ -408,7 +408,7 @@ app.get('/deskripsi/:id', (req, res) => {
     var buffer = result.toString('binary')
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8')
-    res.send('<html><head></head><body>'+ buffer + '</body></html>')
+    res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>'+ buffer + '</body></html>')
   })
 })
 
@@ -422,7 +422,7 @@ app.get('/propagasi/:id', (req, res) => {
     var buffer = result.toString()
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8')
-    res.send('<html><head></head><body>' + buffer + '</body></html>')
+    res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
   })
 })
 
