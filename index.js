@@ -293,43 +293,24 @@ function handleMessage(sender_psid, received_message) {
         var table_penyakit_id
         var table_tanaman_id
         if (mapping[result['class']]['penyakit_id'] == 0) {
-          table_penyakit_id = mapping[result['class']]['penyakit_id']
-          penyakit.model.where({id: table_penyakit_id}).fetch().then((model) => {
-            if (model) {
-              var penyakit_result = model.toJSON()
-              response = {
-                "attachment": {
-                  "type": "template",
-                  "payload": {
-                    "template_type": "generic",
-                    "elements": [{
-                      "title": "Hasil analisis",
-                      "subtitle": "Tekan tombol di bawah untuk melihat hasilnya",
-                      "image_url": attachment_url,
-                      "buttons": [
-                        {
-                          "type": "web_url",
-                          "title": "Gejala",
-                          "url": "https://fbhackday.herokuapp.com/gejala/" + penyakit_result['tanaman_id'] + '/' + table_penyakit_id,
-                          "messenger_extensions": true,
-                          "fallback_url": "https://fbhackday.herokuapp.com/gejala/" + penyakit_result['tanaman_id'] + '/' + table_penyakit_id
-                        },
-                        {
-                          "type": "web_url",
-                          "title": "Cara Mengatasi",
-                          "url": "https://fbhackday.herokuapp.com/penanganan/" + penyakit_result['tanaman_id'] + '/' + table_penyakit_id,
-                          "messenger_extensions": true,
-                          "fallback_url": "https://fbhackday.herokuapp.com/penanganan/" + penyakit_result['tanaman_id'] + '/' + table_penyakit_id
-                        }
-                      ],
-                    }]
-                  }
-                }
+          
+          response = {
+            "attachment": {
+              "type": "template",
+              "payload": {
+                "template_type": "generic",
+                "elements": [{
+                  "title": "Hasil analisis",
+                  "subtitle": "Tekan tombol di bawah untuk melihat hasilnya",
+                  "image_url": attachment_url,
+                }]
               }
-
-              callSendAPI(sender_psid, response);
             }
-          })
+          }
+
+          callSendAPI(sender_psid, response);
+          return
+          
         } else {  
           table_penyakit_id = mapping[result['class']]['penyakit_id']
           table_tanaman_id = mapping[result['class']]['tanaman_id']
@@ -369,6 +350,7 @@ function handleMessage(sender_psid, received_message) {
               callSendAPI(sender_psid, response);
             }
           })
+          return
         }
       } else {
         console.error("Unable to send message:" + err);
