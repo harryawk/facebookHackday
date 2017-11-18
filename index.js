@@ -153,7 +153,7 @@ app.get('/get_info', (req, resp) => {
   var info_id = req.query.id
 
   the_request({
-    'uri': 'http://localhost:5000',
+    'uri': 'http://scrapping-fbhack.herokuapp.com',
     'qs': {
       'id': info_id
     },
