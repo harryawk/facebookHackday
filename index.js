@@ -80,7 +80,7 @@ function handleMessage(sender_psid, received_message) {
   // Check if the message contains text
   if (received_message.text) {    
 
-    if (toLowerCase(received_message.text) == 'halo') {
+    if (received_message.text.toLowerCase() == 'halo') {
       response = {
         'attachment': {
           'type': 'template',
