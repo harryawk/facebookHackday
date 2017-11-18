@@ -315,7 +315,7 @@ function handleMessage(sender_psid, received_message) {
                 "template_type": "generic",
                 "elements": [{
                   "title": "Hasil analisis",
-                  "subtitle": "Tekan tombol di bawah untuk melihat hasilnya",
+                  "subtitle": "Tanaman ini sehat",
                   "image_url": attachment_url
                 }]
               }
