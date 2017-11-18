@@ -426,6 +426,48 @@ app.get('/propagasi/:id', (req, res) => {
   })
 })
 
+app.get('/gejala/:id', (req, res) => {
+  var id = req.params.id
+
+  var penyakit = require('./model/penyakit')
+
+  penyakit.model.where({tanaman_id: id}).fetch().then((model) => {
+    var result = model.toJSON()['gejala_penyakit']
+    var buffer = result.toString()
+
+    res.setHeader('Content-Type', 'text/html; charset=utf-8')
+    res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+  })
+})
+
+app.get('/penanganan/:id', (req, res) => {
+  var id = req.params.id
+
+  var penyakit = require('./model/penyakit')
+
+  penyakit.model.where({tanaman_id: id}).fetch().then((model) => {
+    var result = model.toJSON()['penanganan_penyakit']
+    var buffer = result.toString()
+
+    res.setHeader('Content-Type', 'text/html; charset=utf-8')
+    res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+  })
+})
+
+app.get('/komentar/:id', (req, res) => {
+  var id = req.params.id
+
+  var penyakit = require('./model/penyakit')
+
+  penyakit.model.where({tanaman_id: id}).fetch().then((model) => {
+    var result = model.toJSON()['komentar_penyebab']
+    var buffer = result.toString()
+
+    res.setHeader('Content-Type', 'text/html; charset=utf-8')
+    res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+  })
+})
+
 app.get('/fallback', (req, res) => {
   res.send('Fallback')
 })
