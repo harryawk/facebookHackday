@@ -136,9 +136,8 @@ function handleMessage(sender_psid, received_message) {
       tanaman.model.where({nama_tanaman: 'Almond'}).fetch().then((model) => {
         if (model) {
           var result = model.toJSON()['deskripsi_tanaman']
-          var deskripsi_id = model.toJSON()['id']
-
-          console.log(result.toString('binary'))
+          var tanaman_id = model.toJSON()['id']
+          
           response = {
             'attachment': {
               'type': 'template',
@@ -150,7 +149,7 @@ function handleMessage(sender_psid, received_message) {
                     'buttons': [
                       {
                         'type': 'web_url',
-                        'url': 'https://dump-drtania.herokuapp.com/deskripsi/' + deskripsi_id,
+                        'url': 'https://dump-drtania.herokuapp.com/propagasi/' + tanaman_id,
                         'title': 'Lihat Tanaman',
                         'messenger_extensions': true,
                         'fallback_url': 'https://dump-drtania.herokuapp.com/fallback'
@@ -408,6 +407,25 @@ app.get('/deskripsi/:id', (req, res) => {
     var result = model.toJSON()['deskripsi_tanaman']
     var buffer = result.toString('binary')
 
+    res.setHeader('Content-Type', 'text/html; charset=utf-8')
     res.send('<html><head></head><body>'+ buffer + '</body></html>')
   })
+})
+
+app.get('/propagasi/:id', (req, res) => {
+  var id = req.params.id
+
+  var propagasi = require('./model/propagasi')
+
+  propagasi.model.where({tanaman_id: id}).fetch().then((model) => {
+    var result = model.toJSON()['data_propagasi']
+    var buffer = result.toString()
+
+    res.setHeader('Content-Type', 'text/html; charset=utf-8')
+    res.send('<html><head></head><body>' + buffer + '</body></html>')
+  })
+})
+
+app.get('/fallback', (req, res) => {
+  res.send('Fallback')
 })
