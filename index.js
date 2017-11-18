@@ -107,7 +107,7 @@ function handleMessage(sender_psid, received_message) {
         }
       }
     } else if (received_message.text == 'baca') {
-      var the_text = received_message.text
+      // var the_text = received_message.text
 
       
       response = {
@@ -130,12 +130,28 @@ function handleMessage(sender_psid, received_message) {
           }
         ]
       }
+    } else if (received_message.text == 'Almond') {
+      var tanaman = require('./model/tanaman')
+
+      tanaman.model.where({nama_tanaman: 'Almond'}).fetch().then((model) => {
+        if (model) {
+          var result = model.toJSON()['deskripsi_tanaman']
+
+          response = {
+            'text': result.toString('binary')
+          }
+        }
+      })
     } else {
       
       // Create the payload for a basic text message
       var basic_requirements = 'Test Requirements: Basic requirements\nAlmond grows best in Mediterranean climates with warm, dry summers and mild, wet winters. The optimal temperature for their growth is between 15 and 30\xb0C (60\u201385\xb0F) and the tree buds have a chilling requirement of between 300 and 600 hours below 7.2\xb0C (45\xb0F) to break dormancy. '
+      // response = {
+      //   "text": `You sent the message: "${received_message.text}". Now send me an image!\n\nTest Derajat: 30\xb0C . Test Ranging: 60\u201385\xb0F\n\n"${basic_requirements}"`
+      // }
+
       response = {
-        "text": `You sent the message: "${received_message.text}". Now send me an image!\n\nTest Derajat: 30\xb0C . Test Ranging: 60\u201385\xb0F\n\n"${basic_requirements}"`
+        'text': 'Wait..'
       }
 
     }
@@ -210,6 +226,8 @@ function handlePostback(sender_psid, received_postback) {
         }
       ]
     }
+  } else if (payload == 'almond') {
+
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
