@@ -332,7 +332,7 @@ function handleMessage(sender_psid, received_message) {
           console.log(table_penyakit_id)
           console.log(table_tanaman_id)
           console.log('============data============')
-          penyakit.model.where({ id: table_penyakit_id }).fetch().then((model) => {
+          penyakit.model.where({ id: table_penyakit_id }).fetch({withRelated: ['tanaman']}).then((model) => {
             if (model) {
               var penyakit_result = model.toJSON()
               response = {
@@ -341,7 +341,7 @@ function handleMessage(sender_psid, received_message) {
                   "payload": {
                     "template_type": "generic",
                     "elements": [{
-                      "title": "Hasil analisis: " + penyakit_result['nama_penyakit'],
+                      "title": "Hasil analisis: "+ penyakit_result['tanaman']['nama_tanaman'] + ' - ' + penyakit_result['nama_penyakit'],
                       "subtitle": "Tekan tombol di bawah untuk melihat hasilnya",
                       "image_url": attachment_url,
                       "buttons": [
