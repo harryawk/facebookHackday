@@ -657,8 +657,12 @@ app.get('/deskripsi/:id', (req, res) => {
     var result = model.toJSON()['deskripsi_tanaman']
     var buffer = result.toString()
 
-    res.setHeader('Content-Type', 'text/html; charset=utf-8')
-    res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>'+ buffer + '</body></html>')
+    var translate = require('google-translate-api')
+    translate(buffer, { from: 'en', to: 'id' }).then((result) => {
+      buffer = result.text
+      res.setHeader('Content-Type', 'text/html; charset=utf-8')
+      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>'+ buffer + '</body></html>')
+    })
   })
 })
 
@@ -666,13 +670,19 @@ app.get('/manfaat/:id', (req, res) => {
   var id = req.params.id
 
   var tanaman = require('./model/tanaman')
+  var translate = require('google-translate-api')
 
   tanaman.model.where({id: id}).fetch().then((model) => {
     var result = model.toJSON()['manfaat_tanaman']
     var buffer = result.toString()
 
-    res.setHeader('Content-Type', 'text/html; charset=utf-8')
-    res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>'+ buffer + '</body></html>')
+    var translate = require('google-translate-api')
+    translate(buffer, {from: 'en', to: 'id'}).then((result) => {
+      buffer = result.text
+      res.setHeader('Content-Type', 'text/html; charset=utf-8')
+      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>'+ buffer + '</body></html>')
+    })
+
   })
 })
 
@@ -685,8 +695,12 @@ app.get('/propagasi/:id', (req, res) => {
     var result = model.toJSON()['data_propagasi']
     var buffer = result.toString()
 
-    res.setHeader('Content-Type', 'text/html; charset=utf-8')
-    res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+    var translate = require('google-translate-api')
+    translate(buffer, { from: 'en', to: 'id' }).then((result) => {
+      buffer = result.text
+      res.setHeader('Content-Type', 'text/html; charset=utf-8')
+      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+    })
   })
 })
 
@@ -700,8 +714,12 @@ app.get('/gejala/:id/:penyakit_id', (req, res) => {
     var result = model.toJSON()['gejala_penyakit']
     var buffer = result.toString()
 
-    res.setHeader('Content-Type', 'text/html; charset=utf-8')
-    res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+    var translate = require('google-translate-api')
+    translate(buffer, { from: 'en', to: 'id' }).then((result) => {
+      buffer = result.text
+      res.setHeader('Content-Type', 'text/html; charset=utf-8')
+      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+    })
   })
 })
 
@@ -730,8 +748,12 @@ app.get('/komentar/:id/:penyakit_id', (req, res) => {
     var result = model.toJSON()['komentar_penyebab']
     var buffer = result.toString()
 
-    res.setHeader('Content-Type', 'text/html; charset=utf-8')
-    res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+    var translate = require('google-translate-api')
+    translate(buffer, { from: 'en', to: 'id' }).then((result) => {
+      buffer = result.text
+      res.setHeader('Content-Type', 'text/html; charset=utf-8')
+      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+    })
   })
 })
 
