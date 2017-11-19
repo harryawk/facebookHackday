@@ -695,12 +695,13 @@ app.get('/propagasi/:id', (req, res) => {
     var result = model.toJSON()['data_propagasi']
     var buffer = result.toString()
 
-    var translate = require('google-translate-api')
-    translate(buffer, { from: 'en', to: 'id' }).then((result) => {
-      var indonesian_version = result.text
+    // var translate = require('google-translate-api')
+    // translate(buffer, { from: 'en', to: 'id' }).then((result) => {
+    //   var indonesian_version = result.text
       res.setHeader('Content-Type', 'text/html; charset=utf-8')
-      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + '<b>[en]</b><br/>' + buffer + '<br/><br/><br/><br/>' + '<b>[id]</b><br/>' + indonesian_version + '</body></html>')
-    })
+      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + '<b>[en]</b><br/>' + buffer + '</body></html>')
+      // res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + '<b>[en]</b><br/>' + buffer + '<br/><br/><br/><br/>' + '<b>[id]</b><br/>' + indonesian_version + '</body></html>')
+    // })
   })
 })
 
