@@ -75,6 +75,7 @@ app.get('/webhook', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
+
   var response
 
   // Check if the message contains text
@@ -177,8 +178,8 @@ function handleMessage(sender_psid, received_message) {
           callSendAPI(sender_psid, response)
         }
       })
-      return;
-    } else if (received_message.text.toLowerCase() == 'identifikasi')
+      return; 
+    } else if (received_message.text.toLowerCase() == 'identifikasi')  {
       response = {
         'text': 'Silakan kirim gambar tanamannya ya...'
       }
@@ -193,12 +194,10 @@ function handleMessage(sender_psid, received_message) {
       response = {
         'text': 'Wait..'
       }
-
+      console.log('==================')
+      console.log(received_message.text)
+      console.log('==================')
     }
-    
-    console.log('==================')
-    console.log(received_message.text)
-    console.log('==================')
   } else if (received_message.attachments) {
     console.log(received_message.attachments[0].payload.url)
     var attachment_url = received_message.attachments[0].payload.url
@@ -311,7 +310,7 @@ function handleMessage(sender_psid, received_message) {
         var table_penyakit_id
         var table_tanaman_id
         if (mapping[result['class']]['penyakit_id'] == 0) {
-          
+
           response = {
             "attachment": {
               "type": "template",
@@ -328,15 +327,15 @@ function handleMessage(sender_psid, received_message) {
 
           callSendAPI(sender_psid, response);
           return
-          
-        } else {  
+
+        } else {
           table_penyakit_id = mapping[result['class']]['penyakit_id']
           table_tanaman_id = mapping[result['class']]['tanaman_id']
           console.log('============data============')
           console.log(table_penyakit_id)
           console.log(table_tanaman_id)
           console.log('============data============')
-          penyakit.model.where({ id: table_penyakit_id }).fetch({withRelated: ['tanaman']}).then((model) => {
+          penyakit.model.where({ id: table_penyakit_id }).fetch({ withRelated: ['tanaman'] }).then((model) => {
             if (model) {
               var penyakit_result = model.toJSON()
               response = {
@@ -345,7 +344,7 @@ function handleMessage(sender_psid, received_message) {
                   "payload": {
                     "template_type": "generic",
                     "elements": [{
-                      "title": "Hasil analisis: "+ penyakit_result['tanaman']['nama_tanaman'] + ' - ' + penyakit_result['nama_penyakit'],
+                      "title": "Hasil analisis: " + penyakit_result['tanaman']['nama_tanaman'] + ' - ' + penyakit_result['nama_penyakit'],
                       "subtitle": "Tekan tombol di bawah untuk melihat hasilnya",
                       "image_url": attachment_url,
                       "buttons": [
@@ -380,9 +379,10 @@ function handleMessage(sender_psid, received_message) {
     })
     return;
   }
-  
+
   // Sends the response message
   callSendAPI(sender_psid, response);
+    
 }
 
 // Handles messaging_postbacks events
