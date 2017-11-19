@@ -325,22 +325,30 @@ function handleMessage(sender_psid, received_message) {
         var table_penyakit_id
         var table_tanaman_id
         if (mapping[result['class']]['penyakit_id'] == 0) {
+          table_tanaman_id = mapping[result['class']]['tanaman_id']
+          var tanaman = require('./model/tanaman')
+          tanaman.model.where({id: table_tanaman_id}).fetch().then((model) => {
 
-          response = {
-            "attachment": {
-              "type": "template",
-              "payload": {
-                "template_type": "generic",
-                "elements": [{
-                  "title": "Hasil analisis",
-                  "subtitle": "Tanaman ini sehat",
-                  "image_url": attachment_url
-                }]
+            var translate = require('google-translate-api')
+            var nama_tanaman = model.toJSON()['nama_tanaman']
+            translate(nama_tanaman, {from: 'en', to: 'id'}).then((result) => {
+              
+              response = {
+                "attachment": {
+                  "type": "template",
+                  "payload": {
+                    "template_type": "generic",
+                    "elements": [{
+                      "title": "Hasil analisis: " + result.text + ' ini sehat',
+                      "image_url": attachment_url
+                    }]
+                  }
+                }
               }
-            }
-          }
-
-          callSendAPI(sender_psid, response);
+    
+              callSendAPI(sender_psid, response);
+            })
+          })
           return
 
         } else {
@@ -353,37 +361,42 @@ function handleMessage(sender_psid, received_message) {
           penyakit.model.where({ id: table_penyakit_id }).fetch({ withRelated: ['tanaman'] }).then((model) => {
             if (model) {
               var penyakit_result = model.toJSON()
-              response = {
-                "attachment": {
-                  "type": "template",
-                  "payload": {
-                    "template_type": "generic",
-                    "elements": [{
-                      "title": "Hasil analisis: " + penyakit_result['tanaman']['nama_tanaman'] + ' - ' + penyakit_result['nama_penyakit'],
-                      "subtitle": "Tekan tombol di bawah untuk melihat hasilnya",
-                      "image_url": attachment_url,
-                      "buttons": [
-                        {
-                          "type": "web_url",
-                          "title": "Gejala",
-                          "url": "https://fbhackday.herokuapp.com/gejala/" + table_tanaman_id + '/' + table_penyakit_id,
-                          "messenger_extensions": true,
-                          "fallback_url": "https://fbhackday.herokuapp.com/gejala/" + table_tanaman_id + '/' + table_penyakit_id
-                        },
-                        {
-                          "type": "web_url",
-                          "title": "Cara Mengatasi",
-                          "url": "https://fbhackday.herokuapp.com/penanganan/" + table_tanaman_id + '/' + table_penyakit_id,
-                          "messenger_extensions": true,
-                          "fallback_url": "https://fbhackday.herokuapp.com/penanganan/" + table_tanaman_id + '/' + table_penyakit_id
-                        }
-                      ],
-                    }]
+              var hasil_analisis = penyakit_result['tanaman']['nama_tanaman'] + ' - ' + penyakit_result['nama_penyakit']
+              var translate = require('google-translate-api')
+              translate(hasil_analisis, {from: 'en', to: 'id'}).then((result) => {
+                var hasil = result.text
+                response = {
+                  "attachment": {
+                    "type": "template",
+                    "payload": {
+                      "template_type": "generic",
+                      "elements": [{
+                        "title": "Hasil analisis: " + hasil,
+                        "subtitle": "Tekan tombol di bawah untuk melihat hasilnya",
+                        "image_url": attachment_url,
+                        "buttons": [
+                          {
+                            "type": "web_url",
+                            "title": "Gejala",
+                            "url": "https://fbhackday.herokuapp.com/gejala/" + table_tanaman_id + '/' + table_penyakit_id,
+                            "messenger_extensions": true,
+                            "fallback_url": "https://fbhackday.herokuapp.com/gejala/" + table_tanaman_id + '/' + table_penyakit_id
+                          },
+                          {
+                            "type": "web_url",
+                            "title": "Cara Mengatasi",
+                            "url": "https://fbhackday.herokuapp.com/penanganan/" + table_tanaman_id + '/' + table_penyakit_id,
+                            "messenger_extensions": true,
+                            "fallback_url": "https://fbhackday.herokuapp.com/penanganan/" + table_tanaman_id + '/' + table_penyakit_id
+                          }
+                        ],
+                      }]
+                    }
                   }
                 }
-              }
-
-              callSendAPI(sender_psid, response);
+  
+                callSendAPI(sender_psid, response);
+              })
             }
           })
           return
