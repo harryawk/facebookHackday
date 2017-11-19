@@ -361,41 +361,49 @@ function handleMessage(sender_psid, received_message) {
           penyakit.model.where({ id: table_penyakit_id }).fetch({ withRelated: ['tanaman'] }).then((model) => {
             if (model) {
               var penyakit_result = model.toJSON()
-              var hasil_analisis = penyakit_result['tanaman']['nama_tanaman'] + ' terkena penyakit ' + penyakit_result['nama_penyakit']
+              var the_nama_tanaman = penyakit_result['tanaman']['nama_tanaman']
+              var the_nama_penyakit = penyakit_result['nama_penyakit']
+
               var translate = require('google-translate-api')
-              translate(hasil_analisis, {from: 'en', to: 'id'}).then((result) => {
-                var hasil = result.text
-                response = {
-                  "attachment": {
-                    "type": "template",
-                    "payload": {
-                      "template_type": "generic",
-                      "elements": [{
-                        "title": "Hasil analisis: " + hasil,
-                        "subtitle": "Tekan tombol di bawah untuk melihat hasilnya",
-                        "image_url": attachment_url,
-                        "buttons": [
-                          {
-                            "type": "web_url",
-                            "title": "Gejala",
-                            "url": "https://fbhackday.herokuapp.com/gejala/" + table_tanaman_id + '/' + table_penyakit_id,
-                            "messenger_extensions": true,
-                            "fallback_url": "https://fbhackday.herokuapp.com/gejala/" + table_tanaman_id + '/' + table_penyakit_id
-                          },
-                          {
-                            "type": "web_url",
-                            "title": "Cara Mengatasi",
-                            "url": "https://fbhackday.herokuapp.com/penanganan/" + table_tanaman_id + '/' + table_penyakit_id,
-                            "messenger_extensions": true,
-                            "fallback_url": "https://fbhackday.herokuapp.com/penanganan/" + table_tanaman_id + '/' + table_penyakit_id
-                          }
-                        ],
-                      }]
+              translate(the_nama_tanaman, {from: 'en', to: 'id'}).then((result) => {
+                the_nama_tanaman = result.text
+                translate(the_nama_penyakit, {from: 'en', to: 'id'}).then((result_second) => {
+
+                  the_nama_penyakit = result_second.text
+
+                  response = {
+                    "attachment": {
+                      "type": "template",
+                      "payload": {
+                        "template_type": "generic",
+                        "elements": [{
+                          "title": "Hasil analisis: " + the_nama_tanaman + ' ini terkena penyakit ' + the_nama_penyakit,
+                          "subtitle": "Tekan tombol di bawah untuk melihat hasilnya",
+                          "image_url": attachment_url,
+                          "buttons": [
+                            {
+                              "type": "web_url",
+                              "title": "Gejala",
+                              "url": "https://fbhackday.herokuapp.com/gejala/" + table_tanaman_id + '/' + table_penyakit_id,
+                              "messenger_extensions": true,
+                              "fallback_url": "https://fbhackday.herokuapp.com/gejala/" + table_tanaman_id + '/' + table_penyakit_id
+                            },
+                            {
+                              "type": "web_url",
+                              "title": "Cara Mengatasi",
+                              "url": "https://fbhackday.herokuapp.com/penanganan/" + table_tanaman_id + '/' + table_penyakit_id,
+                              "messenger_extensions": true,
+                              "fallback_url": "https://fbhackday.herokuapp.com/penanganan/" + table_tanaman_id + '/' + table_penyakit_id
+                            }
+                          ],
+                        }]
+                      }
                     }
                   }
-                }
-  
-                callSendAPI(sender_psid, response);
+    
+                  callSendAPI(sender_psid, response);
+
+                })
               })
             }
           })
