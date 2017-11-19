@@ -20,7 +20,7 @@ app.post('/webhook', (req, res) => {
 
       // Gets the message. entry.messaging is an array, but 
       // will only ever contain one message, so we get index 0
-      var webhookEvent = entry.messaging[0] ? entry.messaging[0] : entry.messaging;
+      var webhookEvent = entry.messaging.length ? entry.messaging[0] : entry.messaging;
       console.log(webhookEvent);
 
       var sender_psid = webhookEvent.sender.id
