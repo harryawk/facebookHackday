@@ -361,7 +361,7 @@ function handleMessage(sender_psid, received_message) {
           penyakit.model.where({ id: table_penyakit_id }).fetch({ withRelated: ['tanaman'] }).then((model) => {
             if (model) {
               var penyakit_result = model.toJSON()
-              var hasil_analisis = penyakit_result['tanaman']['nama_tanaman'] + ' - ' + penyakit_result['nama_penyakit']
+              var hasil_analisis = penyakit_result['tanaman']['nama_tanaman'] + ' terkena penyakit ' + penyakit_result['nama_penyakit']
               var translate = require('google-translate-api')
               translate(hasil_analisis, {from: 'en', to: 'id'}).then((result) => {
                 var hasil = result.text
