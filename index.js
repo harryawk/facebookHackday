@@ -431,6 +431,21 @@ function handlePostback(sender_psid, received_postback) {
           'content_type': 'text',
           'title': 'Aloe vera',
           'payload': 'aloe-vera'
+        },
+        {
+          'content_type': 'text',
+          'title': 'Tomato',
+          'payload': 'tomat'
+        },
+        {
+          'content_type': 'text',
+          'title': 'Banana',
+          'payload': 'pisang'
+        },
+        {
+          'content_type': 'text',
+          'title': 'Rice',
+          'payload': 'padi'
         }
       ]
     }
