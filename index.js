@@ -130,7 +130,7 @@ function handleMessage(sender_psid, received_message) {
           }
         ]
       }
-    } else if (received_message.text == 'Almond' || received_message.text == 'Aloe vera') {
+    } else if (received_message.text == 'Almond' || received_message.text == 'Aloe vera' || received_message.text == 'Alfalfa') {
       var tanaman = require('./model/tanaman')
 
       tanaman.model.where({nama_tanaman: received_message.text}).fetch().then((model) => {
@@ -341,7 +341,7 @@ function handleMessage(sender_psid, received_message) {
                   "payload": {
                     "template_type": "generic",
                     "elements": [{
-                      "title": "Hasil analisis",
+                      "title": "Hasil analisis: " + penyakit_result['nama_penyakit'],
                       "subtitle": "Tekan tombol di bawah untuk melihat hasilnya",
                       "image_url": attachment_url,
                       "buttons": [
