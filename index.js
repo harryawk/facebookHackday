@@ -117,7 +117,7 @@ function handleMessage(sender_psid, received_message) {
           {
             'content_type': 'text',
             'title': 'Almond',
-            'payload': 'almond'
+            'payload': 'almond',
           },
           {
             'content_type': 'text',
@@ -128,10 +128,25 @@ function handleMessage(sender_psid, received_message) {
             'content_type': 'text',
             'title': 'Aloe vera',
             'payload': 'aloe-vera'
+          },
+          {
+            'content_type': 'text',
+            'title': 'Tomato',
+            'payload': 'tomat'
+          }, 
+          {
+            'content_type': 'text',
+            'title': 'Banana',
+            'payload': 'pisang'
+          },
+          {
+            'content_type': 'text',
+            'title': 'Rice',
+            'payload': 'padi'
           }
         ]
       }
-    } else if (received_message.text == 'Almond' || received_message.text == 'Aloe vera' || received_message.text == 'Alfalfa') {
+    } else if (received_message.text == 'Almond' || received_message.text == 'Aloe vera' || received_message.text == 'Alfalfa' || received_message.text == 'Tomato' || received_message.text == 'Banana' || received_message.text == 'Rice') {
       var tanaman = require('./model/tanaman')
 
       tanaman.model.where({nama_tanaman: received_message.text}).fetch().then((model) => {
