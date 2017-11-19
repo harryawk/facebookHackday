@@ -659,9 +659,9 @@ app.get('/deskripsi/:id', (req, res) => {
 
     var translate = require('google-translate-api')
     translate(buffer, { from: 'en', to: 'id' }).then((result) => {
-      buffer = result.text
+      var indonesian_version = result.text
       res.setHeader('Content-Type', 'text/html; charset=utf-8')
-      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>'+ buffer + '</body></html>')
+      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>'+ '<b>Versi Bahasa Inggris</b>' + buffer + '<br/><br/><br/><br/>' + '<b>Versi Bahasa Indonesia</b>' + indonesian_version + '</body></html>')
     })
   })
 })
@@ -678,9 +678,9 @@ app.get('/manfaat/:id', (req, res) => {
 
     var translate = require('google-translate-api')
     translate(buffer, {from: 'en', to: 'id'}).then((result) => {
-      buffer = result.text
+      var indonesian_version = result.text
       res.setHeader('Content-Type', 'text/html; charset=utf-8')
-      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>'+ buffer + '</body></html>')
+      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>'+ '<b>Versi Bahasa Inggris</b>' + buffer + '<br/><br/><br/><br/>' + '<b>Versi Bahasa Indonesia</b>' + indonesian_version + '</body></html>')
     })
 
   })
@@ -697,9 +697,9 @@ app.get('/propagasi/:id', (req, res) => {
 
     var translate = require('google-translate-api')
     translate(buffer, { from: 'en', to: 'id' }).then((result) => {
-      buffer = result.text
+      var indonesian_version = result.text
       res.setHeader('Content-Type', 'text/html; charset=utf-8')
-      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + '<b>Versi Bahasa Inggris</b>' + buffer + '<br/><br/><br/><br/>' + '<b>Versi Bahasa Indonesia</b>' + indonesian_version + '</body></html>')
     })
   })
 })
@@ -716,9 +716,9 @@ app.get('/gejala/:id/:penyakit_id', (req, res) => {
 
     var translate = require('google-translate-api')
     translate(buffer, { from: 'en', to: 'id' }).then((result) => {
-      buffer = result.text
+      var indonesian_version = result.text
       res.setHeader('Content-Type', 'text/html; charset=utf-8')
-      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + '<b>Versi Bahasa Inggris</b>' + buffer + '<br/><br/><br/><br/>' + '<b>Versi Bahasa Indonesia</b>' + indonesian_version + '</body></html>')
     })
   })
 })
@@ -735,9 +735,9 @@ app.get('/penanganan/:id/:penyakit_id', (req, res) => {
 
     var translate = require('google-translate-api')
     translate(buffer, { from: 'en', to: 'id' }).then((result) => {
-      buffer = result.text
+      var indonesian_version = result.text
       res.setHeader('Content-Type', 'text/html; charset=utf-8')
-      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + '<b>Versi Bahasa Inggris</b>' + buffer + '<br/><br/><br/><br/>' + '<b>Versi Bahasa Indonesia</b>' + indonesian_version + '</body></html>')
     })
   })
 })
@@ -754,9 +754,9 @@ app.get('/komentar/:id/:penyakit_id', (req, res) => {
 
     var translate = require('google-translate-api')
     translate(buffer, { from: 'en', to: 'id' }).then((result) => {
-      buffer = result.text
+      var indonesian_version = result.text
       res.setHeader('Content-Type', 'text/html; charset=utf-8')
-      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + '<b>Versi Bahasa Inggris</b>' + buffer + '<br/><br/><br/><br/>' + '<b>Versi Bahasa Indonesia</b>' + indonesian_version + '</body></html>')
     })
   })
 })
