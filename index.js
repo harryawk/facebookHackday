@@ -733,8 +733,12 @@ app.get('/penanganan/:id/:penyakit_id', (req, res) => {
     var result = model.toJSON()['penanganan_penyakit']
     var buffer = result.toString()
 
-    res.setHeader('Content-Type', 'text/html; charset=utf-8')
-    res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+    var translate = require('google-translate-api')
+    translate(buffer, { from: 'en', to: 'id' }).then((result) => {
+      buffer = result.text
+      res.setHeader('Content-Type', 'text/html; charset=utf-8')
+      res.send('<html><head><meta name= "viewport" content= "width=device-width,initial-scale=1.0"></head><body>' + buffer + '</body></html>')
+    })
   })
 })
 
