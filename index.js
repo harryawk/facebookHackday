@@ -79,8 +79,8 @@ function handleMessage(sender_psid, received_message) {
 
   // Check if the message contains text
   if (received_message.text) {    
-
-    if (received_message.text.toLowerCase() == 'halo') {
+    temp = received_message.text.toLowerCase();
+    if (temp == 'halo' || temp == 'hi' || temp == "hai" || temp == "halo tania") {
       response = {
         'attachment': {
           'type': 'template',
@@ -88,7 +88,7 @@ function handleMessage(sender_psid, received_message) {
             'template_type': 'generic',
             'elements': [
               {
-                'title': 'Ada yang bisa Dr. Tania bantu?',
+                'title': 'Halo! Ada yang bisa Tania bantu?',
                 'buttons': [
                   {
                     'type': 'postback',
@@ -106,7 +106,7 @@ function handleMessage(sender_psid, received_message) {
           }
         }
       }
-    } else if (received_message.text == 'baca') {
+    } else if (received_message.text.toLowerCase() == 'baca') {
       // var the_text = received_message.text
 
       
@@ -178,6 +178,10 @@ function handleMessage(sender_psid, received_message) {
         }
       })
       return;
+    } else if (received_message.text.toLowerCase() == 'identifikasi')
+      response = {
+        'text': 'Silakan kirim gambar tanamannya ya...'
+      }
     } else {
       
       // Create the payload for a basic text message
